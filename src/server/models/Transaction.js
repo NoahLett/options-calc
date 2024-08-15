@@ -1,0 +1,28 @@
+import mongoose from "mongoose";
+
+const transactionSchema = new mongoose.Schema({
+    transactionType: {
+        type: String,
+        enum: ['deposit', 'withdrawal'], // The type of transaction (either deposit or withdrawal)
+        required: true,
+    },
+    amount: {
+        type: Number,
+        required: true,
+        validate: {
+            validator: function(v) {
+            return v > 0;
+            },
+            message: 'Amount must be a positive number'
+        }
+    },
+    transactionDate: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    }
+});
+
+const Transaction = mongoose.model('Transaction', transactionSchema);
+
+export default Transaction;
