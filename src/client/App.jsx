@@ -1,11 +1,12 @@
+import Ledger from "./Components/Ledger";
 
 function App() {
 
   return (
     <div className="App">
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+      <div className="flex justify-center items-center">
+        <Ledger />
+      </div>
     </div>
   );
 }
