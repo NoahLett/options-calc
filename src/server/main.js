@@ -55,6 +55,15 @@ app.post('/api/transactions', async (req, res) => {
   }
 });
 
+app.get('/api/transactions', async (req, res) => {
+  try {
+    const allTransactions = await Transaction.find({}).sort({ transactionDate: 1 });
+    res.status(200).send(allTransactions);
+  } catch (error) {
+    res.status(500).send({ message: 'Server error', error })
+  }
+})
+
 app.delete('/api/transactions/:id', async (req, res) => {
   try {
     const transaction = await Transaction.findByIdAndDelete(req.params.id);
