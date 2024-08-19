@@ -20,6 +20,11 @@ const transactionSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
         required: true,
+    },
+    isHypothetical: {
+        type: Boolean,
+        default: false,
+        required: true,
     }
 });
 
