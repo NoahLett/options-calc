@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import OptionTrade from "./models/OptionTrade.js";
 import Transaction from "./models/Transaction.js";
+import Fee from './models/Fee.js';
 dotenv.config();
 
 const PORT = process.env.PORT;
@@ -31,7 +32,7 @@ app.get('/api/options', async (req, res) => {
   } catch (error) {
     res.status(500).send({ message: 'Server error', error });
   }
-})
+});
 
 app.delete('/api/options/:id', async (req, res) => {
   try {
@@ -62,7 +63,7 @@ app.get('/api/transactions', async (req, res) => {
   } catch (error) {
     res.status(500).send({ message: 'Server error', error })
   }
-})
+});
 
 app.delete('/api/transactions/:id', async (req, res) => {
   try {
@@ -71,6 +72,37 @@ app.delete('/api/transactions/:id', async (req, res) => {
       return res.status(404).send({ message: 'Transaction not found' });
     }
     res.status(200).send({ message: 'Transaction deleted successfully', transaction });
+  } catch (error) {
+    res.status(500).send({ message: 'Server error', error });
+  }
+});
+
+app.post('/api/fees', async (req, res) => {
+  try {
+    const fee = new Fee(req.body);
+    await fee.save();
+    res.status(201).send(fee);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+app.get('/api/fees', async (req, res) => {
+  try {
+    const allFees = await Fee.find({}).sort({ feeDate: 1 });
+    res.status(200).send(allFees);
+  } catch (error) {
+    res.status(500).send({ message: 'Server error', error })
+  }
+});
+
+app.delete('/api/fees/:id', async (req, res) => {
+  try {
+    const fee = await Fee.findByIdAndDelete(req.params.id);
+    if (!fee) {
+      return res.status(404).send({ message: 'Fee not found' });
+    }
+    res.status(200).send({ message: 'Fee deleted successfully', fee });
   } catch (error) {
     res.status(500).send({ message: 'Server error', error });
   }
