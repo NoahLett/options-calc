@@ -69,7 +69,7 @@ const OptionsBlock = ({options, deleteSelectedOptions, setSelectedOptionIds, sel
         </table>
         <div
           className={`absolute inset-x-0 bottom-0 w-full ${
-            selectedOptionIds.length > 0 ? 'left-0' : 'left-[-999px]'
+            selectedOptionIds.length > 0 ? 'left-0' : 'left-[-9999px]'
           } transition-all ease-in-out`}
         >
           <button

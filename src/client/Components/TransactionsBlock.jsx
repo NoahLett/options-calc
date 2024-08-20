@@ -57,7 +57,7 @@ const TransactionsBlock = ({ transactions, deleteSelectedTransactions, setSelect
         </table>
         <div
           className={`absolute inset-x-0 bottom-0 w-full ${
-            selectedTransactionIds.length > 0 ? 'left-0' : 'left-[-999px]'
+            selectedTransactionIds.length > 0 ? 'left-0' : 'left-[-9999px]'
           } transition-all ease-in-out`}
         >
           <button
