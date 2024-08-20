@@ -24,7 +24,7 @@ const TransactionForm = () => {
       });
 
       setSuccess('Transaction added successfully!');
-      console.log(response);
+      return response;
     } catch (error) {
       setError(error.response ? error.response.data.message : 'Server error')
     }
