@@ -9,17 +9,16 @@ const OptionsBlock = ({options, deleteOption}) => {
         <table>
           <thead>
             <tr className='text-left'>
-              <th className='pr-5 sticky top-0 bg-[#231050] underline text-lg'>Ticker</th>
-              <th className='pr-3 sticky top-0 bg-[#231050] underline text-lg'>Qty</th>
-              <th className='pr-5 sticky top-0 bg-[#231050] underline text-lg'>Action</th>
-              <th className='pr-5 sticky top-0 bg-[#231050] underline text-lg'>Type</th>
-              <th className='pr-5 sticky top-0 bg-[#231050] underline text-lg'>Strike</th>
-              <th className='pr-5 sticky top-0 bg-[#231050] underline text-lg'>Price</th>
-              <th className='pr-12 sticky top-0 bg-[#231050] underline text-lg'>Start</th>
-              <th className='pr-8 sticky top-0 bg-[#231050] underline text-lg'>Expires</th>
-              <th className='pr-10 sticky top-0 bg-[#231050] underline text-lg'>BE</th>
-              <th className='pr-5 sticky top-0 bg-[#231050] underline text-lg'>Live</th>
-              <th className='pr-5 sticky top-0 bg-[#231050]'></th>
+              <th className='pr-5 sticky top-0 text-lg'>Ticker</th>
+              <th className='pr-3 sticky top-0 text-lg'>Qty</th>
+              <th className='pr-5 sticky top-0 text-lg'>Action</th>
+              <th className='pr-5 sticky top-0 text-lg'>Type</th>
+              <th className='pr-5 sticky top-0 text-lg'>Strike</th>
+              <th className='pr-5 sticky top-0 text-lg'>Price</th>
+              <th className='pr-12 sticky top-0 text-lg'>Start</th>
+              <th className='pr-8 sticky top-0 text-lg'>Expires</th>
+              <th className='pr-10 sticky top-0 text-lg'>BE</th>
+              <th className='pr-5 sticky top-0 text-lg'>Live</th>
             </tr>
           </thead>
           <tbody>
@@ -36,7 +35,6 @@ const OptionsBlock = ({options, deleteOption}) => {
                   <td className='text-sm'>{formatDate(option.expirationDate)}</td>
                   <td className='text-sm'>${option.breakEvenPoint}</td>
                   <td className='text-sm'>{option.isHypothetical ? 'Yes' : 'No'}</td>
-                  <td className='text-xs'><button onClick={() => deleteOption(option._id)}><FaRegTrashCan /></button></td>
                 </tr>
               ))
             :

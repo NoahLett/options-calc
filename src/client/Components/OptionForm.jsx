@@ -1,5 +1,7 @@
-import React, { act, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const OptionForm = () => {
 
@@ -12,13 +14,9 @@ const OptionForm = () => {
   const [tradeDate, setTradeDate] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
   const [isHypothetical, setIsHypothetical] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(null);
 
     try {
       const response = await axios.post('/api/options', {
@@ -33,10 +31,19 @@ const OptionForm = () => {
         isHypothetical
       });
 
-      setSuccess('Option trade added successfully!');
+      toast.success('Option trade added');
+      setTicker('');
+      setOptionType('put');
+      setAction('sell');
+      setQuantity(1);
+      setStrikePrice('');
+      setPrice('');
+      setTradeDate('');
+      setExpirationDate('');
+      setIsHypothetical(false);
       return response;
     } catch (error) {
-      setError(error.response ? error.response.data.message : 'Server error');
+      toast.error(error.response ? error.response.data.message : 'Server error');
     }
   }
 
@@ -160,8 +167,7 @@ const OptionForm = () => {
         </div>
       </form>
 
-      {error && <p className="mt-4 text-red-600">{error}</p>}
-      {success && <p className="mt-4 text-green-600">{success}</p>}
+      <ToastContainer />
     </div>
   )
 }
