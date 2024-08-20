@@ -34,7 +34,7 @@ const TransactionForm = () => {
 
   return (
     <div className="w-full my-5 bg-transparent">
-      <form onSubmit={handleSubmit} className="space-y-2">
+      <form onSubmit={handleSubmit} className="space-y-3">
         <div>
           <label className="block text-white">Transaction Type</label>
           <select

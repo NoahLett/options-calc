@@ -49,7 +49,7 @@ const OptionForm = () => {
 
   return (
     <div className="my-5 bg-transparent">
-      <form onSubmit={handleSubmit} className='space-y-2'>
+      <form onSubmit={handleSubmit} className='space-y-3'>
 
         <div className='grid grid-cols-9 gap-4'>
           <div className='col-span-3 flex flex-col'>
