@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TransactionsBlock from './TransactionsBlock';
 import OptionsBlock from './OptionsBlock';
+import CircleLoader from 'react-spinners/CircleLoader';
 
 const Ledger = ({ setSelectedTransactionIds, selectedTransactionIds, setSelectedOptionIds, selectedOptionIds }) => {
     const [options, setOptions] = useState([]);
@@ -59,8 +60,13 @@ const Ledger = ({ setSelectedTransactionIds, selectedTransactionIds, setSelected
     };
 
     if (loading) {
-        return <div>Loading...</div>;
-    }
+        return (
+            <div className='h-[80vh] flex justify-center items-center'>
+                <CircleLoader color={'rgb(14 165 233)'} size={75} />
+            </div>
+        )    
+    } 
+
 
     if (error) {
         return <div>{error}</div>;
