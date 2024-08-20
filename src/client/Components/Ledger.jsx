@@ -3,7 +3,7 @@ import axios from 'axios';
 import TransactionsBlock from './TransactionsBlock';
 import OptionsBlock from './OptionsBlock';
 
-const Ledger = ({ setSelectedTransactionIds, selectedTransactionIds }) => {
+const Ledger = ({ setSelectedTransactionIds, selectedTransactionIds, setSelectedOptionIds, selectedOptionIds }) => {
     const [options, setOptions] = useState([]);
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -34,15 +34,17 @@ const Ledger = ({ setSelectedTransactionIds, selectedTransactionIds }) => {
         fetchTransactions();
     }, []);
 
-    const deleteOption = async (id) => {
+    const deleteSelectedOptions = async (selectedOptionIds) => {
         try {
-            const response = await axios.delete(`/api/options/${id}`);
-            setOptions(options.filter(option => option._id !== id));
-            return response;
+            const deletePromises = selectedOptionIds.map(id =>
+                axios.delete(`/api/options/${id}`)
+            );
+            await Promise.all(deletePromises);
+            setOptions(options.filter(option => !selectedOptionIds.includes(option._id)));
         } catch (error) {
-            setError('Error in deleting option');
+            setError('Error in deleting transactions');
         }
-    }
+    };
 
     const deleteSelectedTransactions = async (selectedTransactionIds) => {
         try {
@@ -67,14 +69,21 @@ const Ledger = ({ setSelectedTransactionIds, selectedTransactionIds }) => {
     return (
         <div className='flex flex-col justify-between'>
             <div className='border border-sky-500 p-2 rounded-md mb-5'>
-                <OptionsBlock options={options} deleteOption={deleteOption} />
+                <OptionsBlock 
+                  options={options} 
+                  deleteSelectedOptions={deleteSelectedOptions}
+                  setSelectedOptionIds={setSelectedOptionIds}
+                  selectedOptionIds={selectedOptionIds}
+                  selectedTransactionIds={selectedTransactionIds}  
+                />
             </div>
             <div className='border border-sky-500 p-2 rounded-md'>
                 <TransactionsBlock 
                   transactions={transactions} 
                   deleteSelectedTransactions={deleteSelectedTransactions}
                   setSelectedTransactionIds={setSelectedTransactionIds}
-                  selectedTransactionIds={selectedTransactionIds} 
+                  selectedTransactionIds={selectedTransactionIds}
+                  selectedOptionIds={selectedOptionIds}
                 />
             </div>
         </div>

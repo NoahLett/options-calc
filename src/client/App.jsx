@@ -7,8 +7,9 @@ function App() {
 
   const [visibleForm, setVisibleForm] = useState(null);
   const [selectedTransactionIds, setSelectedTransactionIds] = useState([]);
+  const [selectedOptionIds, setSelectedOptionIds] = useState([]);
 
-  const allowed = !selectedTransactionIds.length;
+  const allowed = !selectedTransactionIds.length && !selectedOptionIds.length;
 
   const showTransactionForm = () => visibleForm !== 'transaction' ? setVisibleForm('transaction') : setVisibleForm(null);
   const showOptionForm = () => visibleForm !== 'option' ? setVisibleForm('option') : setVisibleForm(null);
@@ -44,6 +45,8 @@ function App() {
         <Ledger
           setSelectedTransactionIds={setSelectedTransactionIds}
           selectedTransactionIds={selectedTransactionIds}
+          setSelectedOptionIds={setSelectedOptionIds}
+          selectedOptionIds={selectedOptionIds}
         />
       </div>
     </div>

@@ -2,16 +2,18 @@ import React from 'react';
 import formatDate from '../lib/dateFormater';
 import { FaRegTrashCan } from 'react-icons/fa6';
 
-const TransactionsBlock = ({ transactions, deleteSelectedTransactions, setSelectedTransactionIds, selectedTransactionIds }) => {
+const TransactionsBlock = ({ transactions, deleteSelectedTransactions, setSelectedTransactionIds, selectedTransactionIds, selectedOptionIds }) => {
 
   const handleRowClick = (transactionId) => {
-    setSelectedTransactionIds((prevSelectedIds) => {
-      if (prevSelectedIds.includes(transactionId)) {
-        return prevSelectedIds.filter((id) => id !== transactionId);
-      } else {
-        return [...prevSelectedIds, transactionId];
-      }
-    });
+    if (!selectedOptionIds.length) {
+      setSelectedTransactionIds((prevSelectedIds) => {
+        if (prevSelectedIds.includes(transactionId)) {
+          return prevSelectedIds.filter((id) => id !== transactionId);
+        } else {
+          return [...prevSelectedIds, transactionId];
+        }
+      });
+    }
   };
 
   const handleDeleteClick = () => {
@@ -20,7 +22,7 @@ const TransactionsBlock = ({ transactions, deleteSelectedTransactions, setSelect
   }
 
   return (
-      <div className="overflow-x-auto h-[12rem]">
+      <div className="overflow-x-auto h-[16rem]">
         <table>
           <thead>
             <tr className='text-left'>

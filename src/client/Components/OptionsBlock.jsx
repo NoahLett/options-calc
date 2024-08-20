@@ -2,10 +2,27 @@ import React from 'react';
 import formatDate from '../lib/dateFormater';
 import { FaRegTrashCan } from "react-icons/fa6";
 
-const OptionsBlock = ({options, deleteOption}) => {
+const OptionsBlock = ({options, deleteSelectedOptions, setSelectedOptionIds, selectedOptionIds, selectedTransactionIds}) => {
+
+  const handleRowClick = (optionId) => {
+    if (!selectedTransactionIds.length) {
+        setSelectedOptionIds((prevSelectedIds) => {
+          if (prevSelectedIds.includes(optionId)) {
+            return prevSelectedIds.filter((id) => id !== optionId);
+          } else {
+            return [...prevSelectedIds, optionId];
+          }
+        });
+      }
+    };
+
+    const handleDeleteClick = () => {
+      deleteSelectedOptions(selectedOptionIds);
+      setSelectedOptionIds([]);
+    }
 
   return (
-      <div className="overflow-x-auto h-[12rem]">
+      <div className="overflow-x-auto h-[16rem]">
         <table>
           <thead>
             <tr className='text-left'>
@@ -24,7 +41,15 @@ const OptionsBlock = ({options, deleteOption}) => {
           <tbody>
             {options.length ?
               options.map((option, index) => (
-                <tr className='text-left' key={option._id}>
+                <tr 
+                  className={`text-left cursor-pointer ${
+                    selectedOptionIds.includes(option._id)
+                    ? 'bg-indigo-600 text-white transition-all ease-in'
+                    : 'bg-transparent transition-all ease-in'
+                  }`}
+                  key={option._id}
+                  onClick={() => handleRowClick(option._id)}  
+                >
                   <td className='text-sm'>{option.ticker}</td>
                   <td className='text-sm'>{option.quantity}</td>
                   <td className='text-sm'>{option.action.toUpperCase()}</td>
@@ -42,6 +67,18 @@ const OptionsBlock = ({options, deleteOption}) => {
             }
           </tbody>
         </table>
+        <div
+          className={`absolute inset-x-0 bottom-0 w-full ${
+            selectedOptionIds.length > 0 ? 'left-0' : 'left-[-999px]'
+          } transition-all ease-in-out`}
+        >
+          <button
+            className="bg-red-600 text-white py-4 rounded-md flex items-center justify-center hover:bg-red-700 w-full"
+            onClick={handleDeleteClick}
+          >
+            Delete <FaRegTrashCan className="ml-2 text-sm" />
+          </button>
+        </div>
       </div>
   )
 }
