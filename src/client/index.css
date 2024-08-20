@@ -27,5 +27,10 @@
 
 .form-container.show {
   opacity: 1;
-  max-height: 500px; /* adjust to fit your form height */
+  max-height: 500px;
+}
+
+th {
+  background-color: rgb(23, 21, 73);
+  color: white;
 }

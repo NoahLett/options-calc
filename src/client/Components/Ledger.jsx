@@ -3,7 +3,7 @@ import axios from 'axios';
 import TransactionsBlock from './TransactionsBlock';
 import OptionsBlock from './OptionsBlock';
 
-const Ledger = () => {
+const Ledger = ({ setSelectedTransactionIds, selectedTransactionIds }) => {
     const [options, setOptions] = useState([]);
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -44,15 +44,17 @@ const Ledger = () => {
         }
     }
 
-    const deleteTransaction = async (id) => {
+    const deleteSelectedTransactions = async (selectedTransactionIds) => {
         try {
-            const response = await axios.delete(`/api/transaction/${id}`);
-            setTransactions(transactions.filter(transaction => transaction._id !== id));
-            return response;
+            const deletePromises = selectedTransactionIds.map(id =>
+                axios.delete(`/api/transactions/${id}`)
+            );
+            await Promise.all(deletePromises);
+            setTransactions(transactions.filter(transaction => !selectedTransactionIds.includes(transaction._id)));
         } catch (error) {
-            setError('Error in deleting transaction')
+            setError('Error in deleting transactions');
         }
-    }
+    };
 
     if (loading) {
         return <div>Loading...</div>;
@@ -68,7 +70,12 @@ const Ledger = () => {
                 <OptionsBlock options={options} deleteOption={deleteOption} />
             </div>
             <div className='border border-sky-500 p-2 rounded-md'>
-                <TransactionsBlock transactions={transactions} deleteTransaction={deleteTransaction} />
+                <TransactionsBlock 
+                  transactions={transactions} 
+                  deleteSelectedTransactions={deleteSelectedTransactions}
+                  setSelectedTransactionIds={setSelectedTransactionIds}
+                  selectedTransactionIds={selectedTransactionIds} 
+                />
             </div>
         </div>
     );

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TransactionForm = () => {
 
@@ -7,13 +9,9 @@ const TransactionForm = () => {
   const [amount, setAmount] = useState('');
   const [transactionDate, setTransactionDate] = useState('');
   const [isHypothetical, setIsHypothetical] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(null);
 
     try {
       const response = await axios.post('/api/transactions', {
@@ -23,10 +21,14 @@ const TransactionForm = () => {
         isHypothetical
       });
 
-      setSuccess('Transaction added successfully!');
+      toast.success('Transaction added');
+      setTransactionType('deposit');
+      setAmount('');
+      setTransactionDate('');
+      setIsHypothetical(false);
       return response;
     } catch (error) {
-      setError(error.response ? error.response.data.message : 'Server error')
+      toast.error(error.response ? error.response.data.message : 'Server error')
     }
   };
 
@@ -87,8 +89,7 @@ const TransactionForm = () => {
         </div>
       </form>
 
-      {error && <p className="mt-4 text-red-600">{error}</p>}
-      {success && <p className="mt-4 text-green-600">{success}</p>}
+      <ToastContainer />
     </div>
   )
 }
