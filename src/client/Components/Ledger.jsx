@@ -63,7 +63,7 @@ const Ledger = () => {
     }
 
     return (
-        <div className='flex flex-col justify-between m-2'>
+        <div className='flex flex-col justify-between mb-5'>
             <div className='border border-sky-500 p-2 rounded-md mb-5'>
                 <OptionsBlock options={options} deleteOption={deleteOption} />
             </div>

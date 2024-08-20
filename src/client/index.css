@@ -8,8 +8,12 @@
     box-sizing: border-box;
   }
   
-  html, body {
+  html {
     height: 100%;
     background-image: linear-gradient(316deg, #000000 0%, #231050 74%);
     color: white;
   }
+
+#root {
+  background-image: linear-gradient(316deg, #000000 0%, #231050 74%);
+}
