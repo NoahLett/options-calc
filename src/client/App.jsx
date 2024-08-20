@@ -8,8 +8,6 @@ function App() {
   const [visibleForm, setVisibleForm] = useState(null);
   const [selectedTransactionIds, setSelectedTransactionIds] = useState([]);
 
-  console.log(selectedTransactionIds);
-
   const allowed = !selectedTransactionIds.length;
 
   const showTransactionForm = () => visibleForm !== 'transaction' ? setVisibleForm('transaction') : setVisibleForm(null);
