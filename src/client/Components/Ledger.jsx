@@ -1,39 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 import TransactionsBlock from './TransactionsBlock';
 import OptionsBlock from './OptionsBlock';
-import CircleLoader from 'react-spinners/CircleLoader';
+import { toast } from 'react-toastify';
 
-const Ledger = ({ setSelectedTransactionIds, selectedTransactionIds, setSelectedOptionIds, selectedOptionIds }) => {
-    const [options, setOptions] = useState([]);
-    const [transactions, setTransactions] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() =>{
-        const fetchOptions = async () => {
-            try {
-                const response = await axios.get('/api/options');
-                setOptions(response.data);
-                setLoading(false);
-            } catch (error) {
-                setError('Error fetching options');
-                setLoading(false);
-            }
-        }
-        const fetchTransactions = async () => {
-            try {
-                const response = await axios.get('/api/transactions');
-                setTransactions(response.data);
-                setLoading(false);
-            } catch (error) {
-                setError('Error fetching transactions');
-                setLoading(false);
-            }
-        }
-        fetchOptions();
-        fetchTransactions();
-    }, []);
+const Ledger = ({ options, transactions, setOptions, setTransactions, setSelectedTransactionIds, selectedTransactionIds, setSelectedOptionIds, selectedOptionIds }) => {
 
     const deleteSelectedOptions = async (selectedOptionIds) => {
         try {
@@ -42,7 +13,9 @@ const Ledger = ({ setSelectedTransactionIds, selectedTransactionIds, setSelected
             );
             await Promise.all(deletePromises);
             setOptions(options.filter(option => !selectedOptionIds.includes(option._id)));
+            toast.success('Option trade deleted');
         } catch (error) {
+            toast.error('Failed to delete option');
             setError('Error in deleting transactions');
         }
     };
@@ -54,23 +27,12 @@ const Ledger = ({ setSelectedTransactionIds, selectedTransactionIds, setSelected
             );
             await Promise.all(deletePromises);
             setTransactions(transactions.filter(transaction => !selectedTransactionIds.includes(transaction._id)));
+            toast.success('Transaction deleted');
         } catch (error) {
+            toast.error('Failed to delete transaction');
             setError('Error in deleting transactions');
         }
     };
-
-    if (loading) {
-        return (
-            <div className='h-[80vh] flex justify-center items-center'>
-                <CircleLoader color={'rgb(14 165 233)'} size={75} />
-            </div>
-        )    
-    } 
-
-
-    if (error) {
-        return <div>{error}</div>;
-    }
 
     return (
         <div className='flex flex-col justify-between'>

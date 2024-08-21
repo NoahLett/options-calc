@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
-const TransactionForm = () => {
+const TransactionForm = ({ addTransaction }) => {
 
   const [transactionType, setTransactionType] = useState('deposit');
   const [amount, setAmount] = useState('');
@@ -21,6 +20,8 @@ const TransactionForm = () => {
         isHypothetical
       });
 
+      addTransaction(response.data);
+
       toast.success('Transaction added');
       setTransactionType('deposit');
       setAmount('');
@@ -34,7 +35,7 @@ const TransactionForm = () => {
 
   return (
     <div className="w-full my-5 bg-transparent">
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form onSubmit={handleSubmit} className="space-y-2">
         <div>
           <label className="block text-white">Transaction Type</label>
           <select
@@ -88,8 +89,6 @@ const TransactionForm = () => {
           </button>
         </div>
       </form>
-
-      <ToastContainer />
     </div>
   )
 }

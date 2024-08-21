@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
-const OptionForm = () => {
+const OptionForm = ({ addOption }) => {
 
   const [ticker, setTicker] = useState('');
   const [optionType, setOptionType] = useState('put');
@@ -31,6 +30,8 @@ const OptionForm = () => {
         isHypothetical
       });
 
+      addOption(response.data);
+
       toast.success('Option trade added');
       setTicker('');
       setOptionType('put');
@@ -49,7 +50,7 @@ const OptionForm = () => {
 
   return (
     <div className="my-5 bg-transparent">
-      <form onSubmit={handleSubmit} className='space-y-3'>
+      <form onSubmit={handleSubmit} className='space-y-2'>
 
         <div className='grid grid-cols-9 gap-4'>
           <div className='col-span-3 flex flex-col'>
@@ -166,8 +167,6 @@ const OptionForm = () => {
           </button>
         </div>
       </form>
-
-      <ToastContainer />
     </div>
   )
 }
