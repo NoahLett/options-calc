@@ -1,19 +1,14 @@
 import React from 'react';
 import formatDate from '../lib/dateFormater';
-import { FaRegTrashCan } from "react-icons/fa6";
 
 const OptionsBlock = (
       {
-        options, 
-        deleteSelectedOptions, 
-        setSelectedOptionIds, 
+        options,
         selectedOptionIds, 
-        selectedTransactionIds,
-        selectedFeeIds,
+        setSelectedOptionIds,  
       }) => {
 
   const handleRowClick = (optionId) => {
-    if (!selectedTransactionIds.length && !selectedFeeIds.length) {
         setSelectedOptionIds((prevSelectedIds) => {
           if (prevSelectedIds.includes(optionId)) {
             return prevSelectedIds.filter((id) => id !== optionId);
@@ -21,13 +16,7 @@ const OptionsBlock = (
             return [...prevSelectedIds, optionId];
           }
         });
-      }
     };
-
-    const handleDeleteClick = () => {
-      deleteSelectedOptions(selectedOptionIds);
-      setSelectedOptionIds([]);
-    }
 
   return (
       <div className="overflow-x-auto h-[16rem]">
@@ -75,18 +64,6 @@ const OptionsBlock = (
             }
           </tbody>
         </table>
-        <div
-          className={`absolute inset-x-0 bottom-0 w-full ${
-            selectedOptionIds.length > 0 ? 'left-0' : 'left-[-9999px]'
-          } transition-all ease-in-out`}
-        >
-          <button
-            className="bg-red-600 text-white py-4 rounded-md flex items-center justify-center hover:bg-red-700 w-full"
-            onClick={handleDeleteClick}
-          >
-            Delete <FaRegTrashCan className="ml-2 text-sm" />
-          </button>
-        </div>
       </div>
   )
 }
