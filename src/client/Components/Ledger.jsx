@@ -3,61 +3,63 @@ import axios from 'axios';
 import TransactionsBlock from './TransactionsBlock';
 import OptionsBlock from './OptionsBlock';
 import FeesBlock from './FeesBlock';
+import { FaRegTrashCan } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
 const Ledger = (
       { options, 
-      transactions, 
+      transactions,
+      fees, 
       setOptions, 
-      setTransactions, 
-      setSelectedTransactionIds, 
-      selectedTransactionIds, 
-      setSelectedOptionIds, 
-      selectedOptionIds,
-      setSelectedFeeIds,
-      selectedFeeIds,
+      setTransactions,
       setFees,
-      fees,
+      selectedTransactionIds, 
+      setSelectedTransactionIds,
+      selectedOptionIds,  
+      setSelectedOptionIds,
+      selectedFeeIds, 
+      setSelectedFeeIds,
         }) => {
 
-    const deleteSelectedOptions = async (selectedOptionIds) => {
+    const handleDeleteClick = async () => {
         try {
-            const deletePromises = selectedOptionIds.map(id =>
-                axios.delete(`/api/options/${id}`)
+            if (selectedOptionIds.length) {
+            await Promise.all(
+                selectedOptionIds.map(optionId =>
+                axios.delete(`/api/options/${optionId}`)
+                )
             );
-            await Promise.all(deletePromises);
-            setOptions(options.filter(option => !selectedOptionIds.includes(option._id)));
-            toast.success('Option trade deleted');
+            setOptions(prevOptions => prevOptions.filter(option => !selectedOptionIds.includes(option._id)));
+            setSelectedOptionIds([]);
+            }
+    
+            if (selectedTransactionIds.length) {
+            await Promise.all(
+                selectedTransactionIds.map(transactionId =>
+                axios.delete(`/api/transactions/${transactionId}`)
+                )
+            );
+            setTransactions(prevTransactions => prevTransactions.filter(transaction => !selectedTransactionIds.includes(transaction._id)));
+            setSelectedTransactionIds([]);
+            }
+    
+            if (selectedFeeIds.length) {
+            await Promise.all(
+                selectedFeeIds.map(feeId =>
+                axios.delete(`/api/fees/${feeId}`)
+                )
+            );
+            setFees(prevFees => prevFees.filter(fee => !selectedFeeIds.includes(fee._id)));
+            setSelectedFeeIds([]);
+            }
+            toast.success('Items deleted successfully');
         } catch (error) {
-            toast.error('Failed to delete option');
+            toast.error('Failed to delete items');
+            console.error(error);
         }
     };
 
-    const deleteSelectedTransactions = async (selectedTransactionIds) => {
-        try {
-            const deletePromises = selectedTransactionIds.map(id =>
-                axios.delete(`/api/transactions/${id}`)
-            );
-            await Promise.all(deletePromises);
-            setTransactions(transactions.filter(transaction => !selectedTransactionIds.includes(transaction._id)));
-            toast.success('Transaction deleted');
-        } catch (error) {
-            toast.error('Failed to delete transaction');
-        }
-    };
-
-    const deleteSelectedFees = async (selectedFeeIds) => {
-        try {
-            const deletePromises = selectedFeeIds.map(id =>
-                axios.delete(`/api/fees/${id}`)
-            );
-            await Promise.all(deletePromises);
-            setFees(fees.filter(fee => !selectedFeeIds.includes(fee._id)));
-            toast.success('Fee deleted');
-        } catch (error) {
-            toast.error('Failed to delete fee');
-        }
-    };
+    const shouldShowDeleteButton = selectedOptionIds.length > 0 || selectedTransactionIds.length > 0 || selectedFeeIds.length > 0;
 
     return (
         <div className='flex flex-col justify-between'>
@@ -65,7 +67,6 @@ const Ledger = (
             <div className='border border-sky-500 p-2 rounded-md mb-5'>
                 <OptionsBlock 
                   options={options} 
-                  deleteSelectedOptions={deleteSelectedOptions}
                   setSelectedOptionIds={setSelectedOptionIds}
                   selectedOptionIds={selectedOptionIds}
                   selectedTransactionIds={selectedTransactionIds}
@@ -76,7 +77,6 @@ const Ledger = (
             <div className='border border-sky-500 p-2 rounded-md mb-5'>
                 <TransactionsBlock 
                   transactions={transactions} 
-                  deleteSelectedTransactions={deleteSelectedTransactions}
                   setSelectedTransactionIds={setSelectedTransactionIds}
                   selectedTransactionIds={selectedTransactionIds}
                   selectedOptionIds={selectedOptionIds}
@@ -87,13 +87,22 @@ const Ledger = (
             <div className='border border-sky-500 p-2 rounded-md'>
                 <FeesBlock 
                   fees={fees} 
-                  deleteSelectedFees={deleteSelectedFees}
                   setSelectedFeeIds={setSelectedFeeIds}
                   selectedFeeIds={selectedFeeIds}
                   selectedOptionIds={selectedOptionIds}
                   selectedTransactionIds={selectedTransactionIds}
                 />
             </div>
+            {shouldShowDeleteButton && (
+                <div className="fixed bottom-0 left-0 w-full">
+                <button
+                    className="bg-red-600 text-white py-4 rounded-md flex items-center justify-center hover:bg-red-700 w-full"
+                    onClick={handleDeleteClick}
+                >
+                    Delete <FaRegTrashCan className="ml-2 text-sm" />
+                </button>
+                </div>
+            )}
         </div>
     );
 }
