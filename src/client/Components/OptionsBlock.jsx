@@ -27,20 +27,17 @@ const OptionsBlock = (
             <thead>
               <tr className='text-left'>
                 <th className='pr-5 sticky top-0 text-lg'>Ticker</th>
-                <th className='pr-3 sticky top-0 text-lg'>Qty</th>
-                <th className='pr-5 sticky top-0 text-lg'>Action</th>
-                <th className='pr-5 sticky top-0 text-lg'>Type</th>
-                <th className='pr-5 sticky top-0 text-lg'>Strike</th>
-                <th className='pr-5 sticky top-0 text-lg'>Price</th>
+                <th className='pr-24 sticky top-0 text-lg'>Trade</th>
+                <th className='pr-5 sticky top-0 text-lg'>Premium</th>
                 <th className='pr-12 sticky top-0 text-lg'>Start</th>
                 <th className='pr-8 sticky top-0 text-lg'>Expires</th>
-                <th className='pr-10 sticky top-0 text-lg'>BE</th>
+                <th className='pr-12 sticky top-0 text-lg'>BE</th>
                 <th className='pr-5 sticky top-0 text-lg'>Live</th>
               </tr>
             </thead>
             <tbody>
               {options.length ?
-                options.map((option, index) => (
+                options.map((option) => (
                   <tr 
                     className={`text-left cursor-pointer ${
                       selectedOptionIds.includes(option._id)
@@ -51,19 +48,16 @@ const OptionsBlock = (
                     onClick={() => handleRowClick(option._id)}  
                   >
                     <td className='text-sm'>{option.ticker}</td>
-                    <td className='text-sm'>{option.quantity}</td>
-                    <td className='text-sm'>{option.action.toUpperCase()}</td>
-                    <td className='text-sm'>{option.optionType.toUpperCase()}</td>
-                    <td className='text-sm'>${option.strikePrice}</td>
+                    <td className='text-sm'>{option.action.toUpperCase() + ' ' + option.quantity + ' ' + option.optionType.toUpperCase() + ' @ $' + option.strikePrice}</td>
                     <td className='text-sm'>${option.price}</td>
                     <td className='text-sm'>{formatDate(option.tradeDate)}</td>
                     <td className='text-sm'>{formatDate(option.expirationDate)}</td>
                     <td className='text-sm'>${option.breakEvenPoint}</td>
-                    <td className='text-sm'>{option.isHypothetical ? 'Yes' : 'No'}</td>
+                    <td className='text-sm'>{option.isHypothetical ? 'No' : 'Yes'}</td>
                   </tr>
                 ))
               :
-                  <tr><td className='text-center' colSpan={5}>No Option Trades Found</td></tr>
+                  <tr><td className='text-center' colSpan={3}>No Option Trades Found</td></tr>
               }
             </tbody>
           </table>
