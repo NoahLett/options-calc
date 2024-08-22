@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const OptionForm = ({ addOption }) => {
+const OptionForm = ({ addOption, addFee }) => {
 
   const [ticker, setTicker] = useState('');
   const [optionType, setOptionType] = useState('put');
@@ -13,6 +13,21 @@ const OptionForm = ({ addOption }) => {
   const [tradeDate, setTradeDate] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
   const [isHypothetical, setIsHypothetical] = useState(false);
+  const [fees, setFees] = useState([]);
+
+  const addRelatedFee = () => {
+    setFees([...fees, { feeType: 'commissions', amount: '', isHypothetical }]);
+  };
+
+  const removeRelatedFee = (index) => {
+    setFees(fees.filter((_, i) => i !== index));
+  };
+
+  const updateFee = (index, field, value) => {
+    const updatedFees = [...fees];
+    updatedFees[index][field] = value;
+    setFees(updatedFees);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +47,25 @@ const OptionForm = ({ addOption }) => {
 
       addOption(response.data);
 
-      toast.success('Option trade added');
+      if (fees.length > 0) {
+        const feePromises = fees.map(async fee => {
+          const feeResponse = await axios.post('/api/fees', {
+            feeType: fee.feeType,
+            amount: parseFloat(fee.amount),
+            feeDate: new Date(),
+            isHypothetical: fee.isHypothetical
+          });
+
+          addFee(feeResponse.data);
+          return feeResponse.data;
+        });
+
+        await Promise.all(feePromises);
+        toast.success('Option trade and fees added');
+      } else {
+        toast.success('Option trade added');
+      }
+
       setTicker('');
       setOptionType('put');
       setAction('sell');
@@ -42,7 +75,8 @@ const OptionForm = ({ addOption }) => {
       setTradeDate('');
       setExpirationDate('');
       setIsHypothetical(false);
-      return response;
+      setFees([]);
+
     } catch (error) {
       toast.error(error.response ? error.response.data.message : 'Server error');
     }
@@ -51,6 +85,8 @@ const OptionForm = ({ addOption }) => {
   return (
     <div className="my-5 bg-transparent">
       <form onSubmit={handleSubmit} className='space-y-2'>
+
+      {/* Option Form */}
 
         <div className='grid grid-cols-9 gap-4'>
           <div className='col-span-3 flex flex-col'>
@@ -152,10 +188,78 @@ const OptionForm = ({ addOption }) => {
           <input
             type="checkbox"
             checked={isHypothetical}
-            onChange={(e) => setIsHypothetical(e.target.checked)}
+            onChange={(e) => {
+              setIsHypothetical(e.target.checked);
+              setFees(fees.map(fee => ({ ...fee, isHypothetical: e.target.checked })));
+            }}
             className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
           />
           <label className="ml-2 block text-white">Is Hypothetical</label>
+        </div>
+
+        {/* End Option Form */}
+
+        {/* Multiple Fees Section */}
+
+        <div>
+          <div className="flex justify-between items-center">
+            <label className="text-white">Fees</label>
+            <button
+              type="button"
+              onClick={addRelatedFee}
+              className="bg-green-600 text-white py-1 px-2 rounded-md"
+            >
+              Add Fee
+            </button>
+          </div>
+
+          {fees.map((fee, index) => (
+            <div key={index} className="space-y-2 mt-2 border border-gray-500 p-2 rounded-md">
+              <div className="flex justify-between items-center">
+                <label className="text-white">Fee {index + 1}</label>
+                <button
+                  type="button"
+                  onClick={() => removeRelatedFee(index)}
+                  className="bg-red-600 text-white py-1 px-2 rounded-md"
+                >
+                  Remove Fee
+                </button>
+              </div>
+
+              <div className="flex flex-col">
+                <label className="text-white">Fee Type</label>
+                <select
+                  value={fee.feeType}
+                  onChange={(e) => updateFee(index, 'feeType', e.target.value)}
+                  className="mt-1 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-slate-900"
+                >
+                  <option value="commissions">Commissions</option>
+                  <option value="misc">Miscellaneous</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col">
+                <label className="text-white">Fee Amount</label>
+                <input
+                  type="number"
+                  value={fee.amount}
+                  onChange={(e) => updateFee(index, 'amount', e.target.value)}
+                  placeholder="E.g. 5.00"
+                  className="mt-1 block w-full px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-slate-900"
+                />
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={fee.isHypothetical}
+                  onChange={(e) => updateFee(index, 'isHypothetical', e.target.checked)}
+                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                <label className="ml-2 block text-white">Is Hypothetical?</label>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div>
