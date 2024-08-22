@@ -3,7 +3,7 @@ import axios from 'axios';
 import TransactionsBlock from './TransactionsBlock';
 import OptionsBlock from './OptionsBlock';
 import FeesBlock from './FeesBlock';
-import { FaRegTrashCan } from 'react-icons/fa6';
+import DeleteButton from './DeleteButton';
 import { toast } from 'react-toastify';
 
 const Ledger = (
@@ -19,7 +19,7 @@ const Ledger = (
       setSelectedOptionIds,
       selectedFeeIds, 
       setSelectedFeeIds,
-        }) => {
+    }) => {
 
     const handleDeleteClick = async () => {
         try {
@@ -63,46 +63,24 @@ const Ledger = (
 
     return (
         <div className='flex flex-col justify-between'>
-            <h2 className='text-xl ml-3 mb-1 font-bold'>Option Trades</h2>
-            <div className='border border-sky-500 p-2 rounded-md mb-5'>
-                <OptionsBlock 
-                  options={options} 
-                  setSelectedOptionIds={setSelectedOptionIds}
-                  selectedOptionIds={selectedOptionIds}
-                  selectedTransactionIds={selectedTransactionIds}
-                  selectedFeeIds={selectedFeeIds}  
-                />
+            <OptionsBlock 
+                options={options} 
+                selectedOptionIds={selectedOptionIds}
+                setSelectedOptionIds={setSelectedOptionIds}
+            />
+            <TransactionsBlock 
+                transactions={transactions}
+                selectedTransactionIds={selectedTransactionIds} 
+                setSelectedTransactionIds={setSelectedTransactionIds}
+            />
+            <FeesBlock 
+                fees={fees} 
+                selectedFeeIds={selectedFeeIds}
+                setSelectedFeeIds={setSelectedFeeIds}
+            />
+            <div className={`delete-button-container ${shouldShowDeleteButton ? 'show' : ''}`}>
+                <DeleteButton handleDeleteClick={handleDeleteClick} />
             </div>
-            <h2 className='text-xl ml-3 mb-1 font-bold'>Deposits &amp; Withdrawals</h2>
-            <div className='border border-sky-500 p-2 rounded-md mb-5'>
-                <TransactionsBlock 
-                  transactions={transactions} 
-                  setSelectedTransactionIds={setSelectedTransactionIds}
-                  selectedTransactionIds={selectedTransactionIds}
-                  selectedOptionIds={selectedOptionIds}
-                  selectedFeeIds={selectedFeeIds}
-                />
-            </div>
-            <h2 className='text-xl ml-3 mb-1 font-bold'>Commissions &amp; Fees</h2>
-            <div className='border border-sky-500 p-2 rounded-md'>
-                <FeesBlock 
-                  fees={fees} 
-                  setSelectedFeeIds={setSelectedFeeIds}
-                  selectedFeeIds={selectedFeeIds}
-                  selectedOptionIds={selectedOptionIds}
-                  selectedTransactionIds={selectedTransactionIds}
-                />
-            </div>
-            {shouldShowDeleteButton && (
-                <div className="fixed bottom-0 left-0 w-full">
-                <button
-                    className="bg-red-600 text-white py-4 rounded-md flex items-center justify-center hover:bg-red-700 w-full"
-                    onClick={handleDeleteClick}
-                >
-                    Delete <FaRegTrashCan className="ml-2 text-sm" />
-                </button>
-                </div>
-            )}
         </div>
     );
 }

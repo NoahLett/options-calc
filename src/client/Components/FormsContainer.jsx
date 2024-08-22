@@ -3,12 +3,19 @@ import TransactionForm from './TransactionForm';
 import OptionForm from './OptionForm';
 import ViewButtons from './ViewButtons';
 
-const FormsContainer = ({ visibleForm, allowed, addTransaction, addOption, addFee, selectedOptionIds, selectedTransactionIds, showTransactionForm, showOptionForm }) => {
+const FormsContainer = (
+      { visibleForm, 
+        allowed, 
+        addTransaction, 
+        addOption, 
+        addFee, 
+        showTransactionForm, 
+        showOptionForm 
+      }) => {
+        
   return (
     <>
       <ViewButtons 
-        selectedOptionIds={selectedOptionIds}
-        selectedTransactionIds={selectedTransactionIds}
         showTransactionForm={showTransactionForm}
         showOptionForm={showOptionForm}
         allowed={allowed}

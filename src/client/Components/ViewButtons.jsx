@@ -1,6 +1,11 @@
 import React from 'react';
 
-const ViewButtons = ({ showTransactionForm, showOptionForm, allowed }) => {
+const ViewButtons = (
+      { showTransactionForm, 
+        showOptionForm, 
+        allowed 
+      }) => {
+
   return (
     <div className="flex justify-around gap-4 mb-4">
       <button
