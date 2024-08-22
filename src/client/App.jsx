@@ -93,7 +93,7 @@ function App() {
         /> 
 
         {loading ? 
-        <div className="flex justify-center items-center h-[500px]">
+        <div className="flex justify-center items-center h-[75vh]">
           <CircleLoader color={'white'} />
         </div>
         :
