@@ -47,7 +47,7 @@ const FeesBlock = (
                     <td className='text-sm'>{fee.feeType === 'commissions' ? 'Commissions' : 'Misc Fee'}</td>
                     <td className='text-sm'>${fee.amount}</td>
                     <td className='text-sm'>{formatDate(fee.feeDate)}</td>
-                    <td className='text-sm'>{fee.isHypothetical ? 'Yes' : 'No'}</td>
+                    <td className='text-sm'>{fee.isHypothetical ? 'No' : 'Yes'}</td>
                   </tr>
                 ))
               :

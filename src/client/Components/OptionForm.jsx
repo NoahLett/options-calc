@@ -52,7 +52,7 @@ const OptionForm = ({ addOption, addFee }) => {
           const feeResponse = await axios.post('/api/fees', {
             feeType: fee.feeType,
             amount: parseFloat(fee.amount),
-            feeDate: new Date(),
+            feeDate: tradeDate,
             isHypothetical: fee.isHypothetical
           });
 

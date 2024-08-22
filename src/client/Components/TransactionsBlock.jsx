@@ -47,7 +47,7 @@ const TransactionsBlock = (
                     <td className='text-sm'>{transaction.transactionType === 'withdrawal' ? 'W' : 'D'}</td>
                     <td className='text-sm'>${transaction.amount}</td>
                     <td className='text-sm'>{formatDate(transaction.transactionDate)}</td>
-                    <td className='text-sm'>{transaction.isHypothetical ? 'Yes' : 'No'}</td>
+                    <td className='text-sm'>{transaction.isHypothetical ? 'No' : 'Yes'}</td>
                   </tr>
                 ))
               :
