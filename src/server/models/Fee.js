@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const feeSchema = new mongoose.Schema({
   feeType: {
     type: String,
-    enum: ['Commissions & Fees', 'Misc Fees'],
+    enum: ['commissions', 'misc'],
     required: true,
   },
   amount: {

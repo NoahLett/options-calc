@@ -2,10 +2,18 @@ import React from 'react';
 import formatDate from '../lib/dateFormater';
 import { FaRegTrashCan } from 'react-icons/fa6';
 
-const TransactionsBlock = ({ transactions, deleteSelectedTransactions, setSelectedTransactionIds, selectedTransactionIds, selectedOptionIds }) => {
+const TransactionsBlock = (
+      { 
+        transactions,
+        deleteSelectedTransactions,
+        setSelectedTransactionIds, 
+        selectedTransactionIds, 
+        selectedOptionIds,
+        selectedFeeIds, 
+      }) => {
 
   const handleRowClick = (transactionId) => {
-    if (!selectedOptionIds.length) {
+    if (!selectedOptionIds.length && !selectedFeeIds.length) {
       setSelectedTransactionIds((prevSelectedIds) => {
         if (prevSelectedIds.includes(transactionId)) {
           return prevSelectedIds.filter((id) => id !== transactionId);
