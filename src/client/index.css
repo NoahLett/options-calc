@@ -43,6 +43,18 @@ html {
   transform: translateX(0);
 }
 
+.block-container {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease, max-height 0.5s ease;
+}
+
+.block-container.show {
+  opacity: 1;
+  max-height: 16rem;
+}
+
 th {
   background-color: rgb(23, 21, 73);
   color: white;

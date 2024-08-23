@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import formatDate from '../lib/dateFormater';
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 
 const OptionsBlock = (
       {
@@ -7,6 +8,8 @@ const OptionsBlock = (
         selectedOptionIds, 
         setSelectedOptionIds,  
       }) => {
+
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleRowClick = (optionId) => {
         setSelectedOptionIds((prevSelectedIds) => {
@@ -18,10 +21,17 @@ const OptionsBlock = (
         });
     };
 
+    const handleOpen = (view) => {
+      setIsOpen(view);
+    }
+
   return (
     <>
-      <h2 className='text-xl ml-3 mb-1 font-bold'>Option Trades</h2>
-      <div className='border border-sky-500 p-2 rounded-md mb-5'>
+      <div className='flex justify-between items-center mx-3'>
+        <h2 className='text-xl mb-1 font-bold'>Option Trades</h2>
+        {isOpen ? <FaRegEye onClick={() => handleOpen(false)} /> : <FaRegEyeSlash onClick={() => handleOpen(true)} />}
+      </div>
+      <div className={`border border-sky-500 p-2 rounded-md mb-5 block-container ${isOpen ? 'show' : ''}`}>
         <div className="overflow-x-auto h-[16rem]">
           <table>
             <thead>
