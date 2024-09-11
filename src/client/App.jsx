@@ -12,9 +12,11 @@ function App() {
   const [selectedTransactionIds, setSelectedTransactionIds] = useState([]);
   const [selectedOptionIds, setSelectedOptionIds] = useState([]);
   const [selectedFeeIds, setSelectedFeeIds] = useState([]);
+  const [selectedStockIds, setSelectedStockIds] = useState([]);
   const [options, setOptions] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [fees, setFees] = useState([]);
+  const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -90,7 +92,7 @@ function App() {
           selectedTransactionIds={selectedTransactionIds}
           showOptionForm={showOptionForm}
           showTransactionForm={showTransactionForm}
-        /> 
+        />
 
         {loading ? 
         <div className="flex justify-center items-center h-[75vh]">
@@ -104,12 +106,16 @@ function App() {
           selectedOptionIds={selectedOptionIds}
           setSelectedFeeIds={setSelectedFeeIds}
           selectedFeeIds={selectedFeeIds}
+          setSelectedStockIds={setSelectedStockIds}
+          selectedStockIds={selectedStockIds}
           fees={fees}
           options={options}
           transactions={transactions}
+          stocks={stocks}
           setOptions={setOptions}
           setTransactions={setTransactions}
           setFees={setFees}
+          setStocks={setStocks}
         />
       }
       </div>
