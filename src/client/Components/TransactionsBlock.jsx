@@ -12,7 +12,7 @@ const TransactionsBlock = ({ transactions, selectedTransactionIds, setSelectedTr
 
   const renderRow = (transaction) => (
     <>
-      <td className='text-sm'>{transaction.transactionType === 'commissions' ? 'Commissions' : 'Misc Fee'}</td>
+      <td className='text-sm'>{transaction.transactionType === 'deposit' ? 'Deposit' : 'Withdrawal'}</td>
       <td className='text-sm'>${transaction.amount}</td>
       <td className='text-sm'>{formatDate(transaction.transactionDate)}</td>
       <td className='text-sm'>{transaction.isHypothetical ? 'No' : 'Yes'}</td>
@@ -27,7 +27,7 @@ const TransactionsBlock = ({ transactions, selectedTransactionIds, setSelectedTr
       selectedIds={selectedTransactionIds}
       setSelectedIds={setSelectedTransactionIds}
       renderRow={renderRow}
-      noDataMessage="No Data Found"
+      noDataMessage="No Transfers Found"
     />
   );
 };

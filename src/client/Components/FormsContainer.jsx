@@ -1,6 +1,7 @@
 import React from 'react';
 import TransactionForm from './TransactionForm';
 import OptionForm from './OptionForm';
+import StockForm from './StockForm';
 import ViewButtons from './ViewButtons';
 
 const FormsContainer = (
@@ -8,9 +9,11 @@ const FormsContainer = (
         allowed, 
         addTransaction, 
         addOption, 
-        addFee, 
+        addFee,
+        addStock, 
         showTransactionForm, 
-        showOptionForm 
+        showOptionForm,
+        showStockForm, 
       }) => {
         
   return (
@@ -18,6 +21,7 @@ const FormsContainer = (
       <ViewButtons 
         showTransactionForm={showTransactionForm}
         showOptionForm={showOptionForm}
+        showStockForm={showStockForm}
         allowed={allowed}
       />
 
@@ -26,6 +30,9 @@ const FormsContainer = (
       </div>
       <div className={`form-container ${visibleForm === "option" && allowed ? "show" : ""}`}>
         <OptionForm addOption={addOption} addFee={addFee} />
+      </div>
+      <div className={`form-container ${visibleForm === "stock" && allowed ? "show" : ""}`}>
+        <StockForm addStock={addStock} addFee={addFee} />
       </div>
     </>
   )

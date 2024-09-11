@@ -75,10 +75,10 @@ const Ledger = (
         }
     };
 
-    const shouldShowDeleteButton = selectedOptionIds.length > 0 || selectedTransactionIds.length > 0 || selectedFeeIds.length > 0;
+    const shouldShowDeleteButton = selectedOptionIds.length > 0 || selectedTransactionIds.length > 0 || selectedFeeIds.length > 0 || selectedStockIds.length > 0;
 
     return (
-        <div className='flex flex-col justify-between'>
+        <div className={`flex flex-col justify-between ${shouldShowDeleteButton ? 'pb-10' : ''}`}>
             <OptionsBlock 
                 options={options} 
                 selectedOptionIds={selectedOptionIds}

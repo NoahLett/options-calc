@@ -32,7 +32,7 @@ const FeeForm = ({ addRelatedFee, removeRelatedFee, updateFee, fees }) => {
 
       {fees.map((fee, index) => (
         <div
-          key={fee.id}  // Use unique key
+          key={fee.id}
           className={`overflow-hidden transition-all duration-300 ease-in-out ${expandedFees[index] ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}
           style={{ transition: 'max-height 0.3s ease, opacity 0.3s ease' }}
         >
