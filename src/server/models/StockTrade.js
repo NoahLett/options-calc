@@ -29,6 +29,6 @@ const stockTradeSchema = new mongoose.Schema({
   }
 });
 
-const StockTrade = mongoose.model('SockTrade', stockTradeSchema);
+const StockTrade = mongoose.model('StockTrade', stockTradeSchema);
 
 export default StockTrade;
