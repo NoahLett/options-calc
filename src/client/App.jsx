@@ -24,6 +24,7 @@ function App() {
 
   const showTransactionForm = () => visibleForm !== 'transaction' ? setVisibleForm('transaction') : setVisibleForm(null);
   const showOptionForm = () => visibleForm !== 'option' ? setVisibleForm('option') : setVisibleForm(null);
+  const showStockForm = () => visibleForm !== 'stock' ? setVisibleForm('stock') : setVisibleForm(null);
 
   const addOption = (newOption) => {
     setOptions((prevOptions) => [...prevOptions, newOption]);
@@ -35,6 +36,10 @@ function App() {
 
   const addFee = (newFee) => {
     setFees((prevFees) => [...prevFees, newFee]);
+  }
+
+  const addStock = (newStock) => {
+    setStocks((prevStocks) => [...prevStocks, newStock]);
   }
 
   useEffect(() =>{
@@ -68,9 +73,20 @@ function App() {
         setLoading(false);
       }
     }
+    const fetchStocks = async () => {
+      try {
+        const response = await axios.get('/api/stocks');
+        setStocks(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError('Error fetching stocks');
+        setLoading(false);
+      }
+    }
     fetchOptions();
     fetchTransactions();
     fetchFees();
+    fetchStocks();
 }, []);
 
   if (error) {
@@ -88,10 +104,13 @@ function App() {
           addOption={addOption}
           addTransaction={addTransaction}
           addFee={addFee}
+          addStock={addStock}
           selectedOptionIds={selectedOptionIds}
           selectedTransactionIds={selectedTransactionIds}
+          selectedStockIds={selectedStockIds}
           showOptionForm={showOptionForm}
           showTransactionForm={showTransactionForm}
+          showStockForm={showStockForm}
         />
 
         {loading ? 

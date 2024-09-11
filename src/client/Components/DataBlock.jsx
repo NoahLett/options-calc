@@ -13,9 +13,15 @@ const DataBlock = (
  }
  ) => {
 
-  const value = title === 'Option Trades' ? true : false;
+  const value = (title) => {
+    if (title === 'Option Trades' || title === 'Stock Trades') {
+      return true
+    } else {
+      return false
+    }
+  }
 
-  const [isOpen, setIsOpen] = useState(value);
+  const [isOpen, setIsOpen] = useState(value(title));
 
   const handleRowClick = (id) => {
     setSelectedIds((prevSelectedIds) => {

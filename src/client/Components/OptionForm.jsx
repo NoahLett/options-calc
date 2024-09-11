@@ -89,8 +89,6 @@ const OptionForm = ({ addOption, addFee }) => {
     <div className="my-5 bg-transparent">
       <form onSubmit={handleSubmit} className='space-y-2'>
 
-      {/* Option Form */}
-
         <div className='grid grid-cols-9 gap-4'>
           <div className='col-span-3 flex flex-col'>
             <label className=" text-white">Ticker</label>

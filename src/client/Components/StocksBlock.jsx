@@ -4,11 +4,11 @@ import DataBlock from './DataBlock';
 
 const StocksBlock = ({ stocks, selectedStockIds, setSelectedStockIds }) => {
   const columns = [
-    { label: 'Ticker', className: 'pr-5 text-lg' },
+    { label: 'Ticker', className: 'pr-4 text-lg' },
     { label: 'Trade', className: 'pr-5 text-lg' },
     { label: 'Price', className: 'pr-5 text-lg' },
     { label: 'Quote', className: 'pr-5 text-lg' },
-    { label: 'Date', className: 'pr-12 text-lg' },
+    { label: 'Date', className: 'pr-7 text-lg' },
   ];
 
   const renderRow = (stock) => (

@@ -25,7 +25,7 @@ const stockTradeSchema = new mongoose.Schema({
   tradeDate: {
     type: Date,
     default: Date.now,
-    required: true
+    required: true,
   }
 });
 
