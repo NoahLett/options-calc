@@ -3,22 +3,27 @@ import axios from 'axios';
 import TransactionsBlock from './TransactionsBlock';
 import OptionsBlock from './OptionsBlock';
 import FeesBlock from './FeesBlock';
+import StocksBlock from './StocksBlock';
 import DeleteButton from './DeleteButton';
 import { toast } from 'react-toastify';
 
 const Ledger = (
       { options, 
       transactions,
-      fees, 
+      fees,
+      stocks, 
       setOptions, 
       setTransactions,
       setFees,
+      setStocks,
       selectedTransactionIds, 
       setSelectedTransactionIds,
       selectedOptionIds,  
       setSelectedOptionIds,
       selectedFeeIds, 
       setSelectedFeeIds,
+      selectedStockIds,
+      setSelectedStockIds
     }) => {
 
     const handleDeleteClick = async () => {
@@ -52,6 +57,17 @@ const Ledger = (
             setFees(prevFees => prevFees.filter(fee => !selectedFeeIds.includes(fee._id)));
             setSelectedFeeIds([]);
             }
+
+            if (selectedStockIds.length) {
+                await Promise.all(
+                    selectedStockIds.map(stockId => 
+                        axios.delete(`/api/stocks/${stockId}`)
+                    )
+                );
+                setStocks(prevStocks => prevStocks.filter(stock => !selectedStockIds.includes(stock._id)));
+                setSelectedStockIds([]);
+            }
+
             toast.success('Items deleted successfully');
         } catch (error) {
             toast.error('Failed to delete items');
@@ -67,6 +83,11 @@ const Ledger = (
                 options={options} 
                 selectedOptionIds={selectedOptionIds}
                 setSelectedOptionIds={setSelectedOptionIds}
+            />
+            <StocksBlock 
+                stocks={stocks}
+                selectedStockIds={selectedStockIds}
+                setSelectedStockIds={setSelectedStockIds}
             />
             <TransactionsBlock 
                 transactions={transactions}
